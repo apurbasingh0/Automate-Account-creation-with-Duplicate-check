@@ -1,0 +1,198 @@
+<!--
+    @description       : Lighting web Component for account creation
+    @author            : Apurba Singh, Appstrail             
+    @last modified on  : 04-09-2024
+    @last modified by  : Apurba Singh, Appstrail
+    Modifications Log 
+    Ver   Date         Author          Modification
+    1.0   04-09-2024   Apurba Singh   Initial Version
+-->
+<template>
+    <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+                <lightning-button-icon icon-name="utility:close" alternative-text="close" onclick={handleCancel}
+                    class="slds-modal__close"></lightning-button-icon>
+                <h2 class="slds-modal__title slds-hyphenate">New Account Approval</h2>
+            </header>
+
+            <!-- Modal/Popup Body -->
+            <div class="slds-modal__content slds-p-around_medium">
+                <!-- Page 1: Enter Account Name -->
+                <template if:true={showPage1}>
+                    <div class="slds-modal__content slds-p-around_large" style="padding: 20px 20px 20px 20px;">
+                        <lightning-input label="Enter Account Name" value={accountName} onchange={handleInputChange} placeholder="Search Account..." required></lightning-input>
+
+                        <template if:true={accounts.length}>
+                            <br>
+                            <div class="slds-card slds-theme_warning"
+                                style="padding: 5px; border-radius: 5px;max-height: 200px; overflow-y: auto;">
+                                <p><b>Similar Accounts Exist</b></p>
+                                <!-- <lightning-datatable key-field="id" data={accounts} columns={columns}
+                                    hide-checkbox-column="true"
+                                    onrowaction={handleRowAction}></lightning-datatable> -->
+                                    <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col"  style="background-color: #dd7a01; color: black;">
+                                                    <div class="slds-truncate" title="Account Name">Account Name</div>
+                                                </th>
+                                                <th scope="col"  style="background-color: #dd7a01; color: black;">
+                                                    <div class="slds-truncate" title="Region">Region</div>
+                                                </th>
+                                                <th scope="col"  style="background-color: #dd7a01; color: black;">
+                                                    <div class="slds-truncate" title="Owner Name">Owner Name</div>
+                                                </th>
+                                                <th scope="col"  style="background-color: #dd7a01; color: black;">
+                                                    <div class="slds-truncate" title="Account Classification">Account Classification</div>
+                                                </th>
+                                                <th scope="col"  style="background-color: #dd7a01; color: black;">
+                                                    <div class="slds-truncate" title="Is Active">Is Active</div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <template for:each={accounts} for:item="account">
+                                                <tr key={account.Id}>
+                                                    <td data-label="Account Name" onclick={handleRowAction}>
+                                                        <a href="#" onclick={handleRowAction} data-id={account.Id}>{account.Name}</a>
+                                                    </td>
+                                                    <td data-label="Region">
+                                                        {account.Account_Region__c}
+                                                    </td>
+                                                    <td data-label="Owner Name">
+                                                        {account.OwnerName}
+                                                    </td>
+                                                    <td data-label="Account Classification">
+                                                        {account.AccountClassification}
+                                                    </td>
+                                                    <td data-label="Is Active">
+                                                        <img src={account.IsActives.url} alt={account.IsActives.alt} height="20" width="20"/>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                            </div>
+                        </template>
+                        <template if:false={accounts.length}>
+                            <p>No matching accounts found. You can proceed with creating a new record by clicking on next.</p>
+                        </template>
+                    </div>
+                        <footer class="slds-modal__footer">
+                            <lightning-button variant="neutral" label="Cancel" onclick={handleCancel}>
+                            </lightning-button>&nbsp;
+                            <lightning-button variant="brand" label="Create Account" onclick={handleNext} disabled={disabledNextButton}>
+                            </lightning-button>
+                        </footer>
+                </template>
+
+                <!-- Page 2: Enter Account Details -->
+                <template if:true={showPage2}>
+                    <div class="slds-modal__content slds-p-around_medium">
+                <lightning-record-edit-form object-api-name="Account_Approval__c">
+                    <div class="slds-section slds-is-open">
+                        <!-- <div>
+                            <div class="slds-m-around_medium">
+                                <lightning-input label="Enter Account Name" value={accountName}
+                                    onchange={handleInputChange} placeholder="Search Account..."></lightning-input>
+                                <template if:true={accounts.length}>
+                                    <br>
+                                    <div class="slds-card slds-theme_warning"
+                                        style="padding: 5px; border-radius: 5px;max-height: 200px; overflow-y: auto;">
+                                        <p><b>Similar Accounts Exist</b></p>
+                                        <lightning-datatable key-field="id" data={accounts} columns={columns}
+                                            hide-checkbox-column="true"
+                                            onrowaction={handleRowAction}></lightning-datatable>
+                                    </div>
+                                </template>
+
+                                <template if:false={accounts.length}>
+                                    <p>No matching accounts found. You can proceed with creating a new record by clicking on next.</p>
+                                </template>
+                            </div>
+                        </div> -->
+                        <div class="slds-grid slds-wrap slds-gutters" style="padding: 2px 2px 0px 2px;">
+                            <!-- Column 1 -->
+                            <div class="slds-col slds-size_1-of-2">
+                                <!-- <div class="slds-form-element slds-m-top_medium" style="margin-top: 1px; padding-left: 5px;padding-bottom: 1.3rem;">
+                                    <span class="slds-form-element__label"><abbr class="slds-required" title="required">*</abbr>Account Name</span>
+                                    <span style="padding-left: 6.7rem;"> <lightning-formatted-text value={accountName}></lightning-formatted-text> </span>
+                                </div>                             -->
+                                <lightning-input-field field-name="Account_Name__c" value={accountName} onchange={handleInputChange} required></lightning-input-field>
+                                <lightning-input-field field-name="Account_Type__c" data-id="AccountType" required></lightning-input-field>
+                                <lightning-input-field field-name="Account_Classification__c" data-id="AccountClassification" required></lightning-input-field>
+                            </div>
+
+                            <!-- Column 2 -->
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-output-field style="margin-bottom: 21px;" field-name="Account_Region__c" required></lightning-output-field>
+                                <lightning-input-field field-name="Industry__c" data-id="Industry" required></lightning-input-field>
+                                <lightning-input-field field-name="Account_Site__c" data-id="AccountSite" required></lightning-input-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-section slds-is-open">
+                        <h3 class="slds-section__title slds-theme_shade">
+                            <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Account Business
+                                Plan</span>
+                        </h3>
+                        <div class="slds-grid slds-wrap slds-gutters" style="padding: 2px 2px 0px 2px;">
+                            <!-- Column 1 -->
+                            <div class="slds-col slds-size_1-of-2">
+                                
+                                <lightning-input-field field-name="Business_Plan_WCT__c" data-id="BusinessPlanWCT"></lightning-input-field>
+                                <lightning-input-field field-name="Business_Plan_SWG__c" data-id="BusinessPlanSWG"></lightning-input-field>
+                                <lightning-input-field field-name="Business_Plan_CMS__c" data-id="BusinessPlanCMS"></lightning-input-field>
+                                <lightning-input-field field-name="Business_Plan_WD__c" data-id="BusinessPlanWD"></lightning-input-field>
+                                <lightning-input-field field-name="Business_Plan_Lighting__c" data-id="BusinessPlanLighting"></lightning-input-field>
+                                <lightning-input-field field-name="Business_Plan_IAQ__c" data-id="BusinessPlanIAQ"></lightning-input-field>
+                                <lightning-input-field field-name="Business_Plan_Water_Heater__c" type="number"  data-id="BusinessPlanWaterHeater"></lightning-input-field>
+                                <lightning-output-field field-name="Account_Potentiall__c" data-id="AccountPotential" required></lightning-output-field>
+                            </div>
+
+                            <!-- Column 2 -->
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field field-name="Account_Potential_WCT__c" data-id="AccountPotentialWCT"></lightning-input-field>
+                                <lightning-input-field field-name="Account_Potential_SWG__c" data-id="AccountPotentialSWG"></lightning-input-field>
+                                <lightning-input-field field-name="Account_Potential_CMS__c" data-id="AccountPotentialCMS"></lightning-input-field>
+                                <lightning-input-field field-name="Account_Potential_WD__c" data-id="AccountPotentialWD"></lightning-input-field>
+                                <lightning-input-field field-name="Account_Potential_Lighting__c" data-id="AccountPotentialLighting"></lightning-input-field>
+                                <lightning-input-field field-name="Account_Potential_IAQ__c" data-id="AccountPotentialIAQ"></lightning-input-field>
+                                <lightning-input-field field-name="Account_Potential_Water_Heater__c" type="number"  data-id="AccountPotentialWaterHeater"></lightning-input-field>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-section slds-is-open">
+                        <h3 class="slds-section__title slds-theme_shade">
+                            <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Contact
+                                Details</span>
+                        </h3>
+                        <div class="slds-grid slds-wrap slds-gutters" style="padding: 2px 2px 0px 2px;">
+                            <!-- Column 1 -->
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field field-name="Customer_First_Name__c" data-id="CustomerFirstName" required></lightning-input-field>
+                                <lightning-input-field field-name="Customer_Last_Name__c" data-id="CustomerLastName" required></lightning-input-field>
+                            </div>
+
+                            <!-- Column 2 -->
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning-input-field field-name="Email_Id__c" data-id="EmailId" required></lightning-input-field>
+                                <lightning-input-field field-name="Mobile_No__c" data-id="MobileNo" required></lightning-input-field>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button variant="neutral" label="Previous" onclick={handlePrevious}>
+                        </lightning-button> &nbsp;
+                        <lightning-button variant="brand" label="Save" onclick={handleSave} disabled={disabledButton}>
+                        </lightning-button>
+                    </footer>
+                </lightning-record-edit-form>
+                </div>
+                </template>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+</template>

@@ -1,0 +1,26 @@
+.slds-table_warning {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.slds-table_warning th, .slds-table_warning td {
+    border: 1px solid #f4b731; /* Adjust the border color as needed */
+    padding: 8px;
+}
+
+.slds-table_warning thead th {
+    background-color: #f4b731; /* Warning color */
+    color: #fff; /* Text color for better readability */
+}
+
+.slds-table_warning tbody tr:nth-child(even) {
+    background-color: #fef6e4; /* Light background for alternating rows */
+}
+
+.slds-table_warning tbody tr:hover {
+    background-color: #f1c40f; /* Highlight on hover */
+}
+
+.col {
+    background-color: #f1c40f;
+}

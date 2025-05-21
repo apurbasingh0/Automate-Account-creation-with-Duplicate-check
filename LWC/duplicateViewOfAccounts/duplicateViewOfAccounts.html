@@ -1,0 +1,137 @@
+<!--
+    @description       : Lighting web Component for order add Order products component
+    @author            : Apurba Singh, Appstrail             
+    @last modified on  : 04-09-2024
+    @last modified by  : Apurba Singh, Appstrail
+    Modifications Log 
+    Ver   Date         Author          Modification
+    1.0   04-09-2024   Apurba Singh   Initial Version
+-->
+<template>
+    <div>
+    <template if:true={accounts.length}>
+        <lightning-card title="Similar Accounts Exist">
+            
+                <div style="padding: 5px; border-radius: 5px;max-height: 200px; overflow-y: auto;">
+                    <div class="">
+                    <!-- <lightning-datatable style="--slds-c-table-header-bg-color: #dd7a01; --slds-g-color-neutral-base-100: #dd7a01" key-field="id" data={accounts} columns={columns}
+                        hide-checkbox-column="true"
+                        onrowaction={handleRowAction}></lightning-datatable> -->
+                        <div class="slds-card slds-p-around_medium">
+                        <table class="custom-table slds-table slds-table_bordered slds-table_cell-buffer">
+                            <thead >
+                                <tr >
+                                    <th scope="col" style="background-color: #dd7a01; color: black;">
+                                        <div class="slds-truncate" title="Account Name">Account Name</div>
+                                    </th>
+                                    <th scope="col" style="background-color: #dd7a01;  color: black;">
+                                        <div class="slds-truncate" title="Region">Region</div>
+                                    </th>
+                                    <th scope="col" style="background-color: #dd7a01;  color: black;">
+                                        <div class="slds-truncate" title="Owner Name">Owner Name</div>
+                                    </th>
+                                    <th scope="col" style="background-color: #dd7a01;  color: black;">
+                                        <div class="slds-truncate" title="Account Classification">Account Classification</div>
+                                    </th>
+                                    <th scope="col" style="background-color: #dd7a01;  color: black;">
+                                        <div class="slds-truncate" title="Is Active">Is Active</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={accounts} for:item="account">
+                                    <tr key={account.Id}>
+                                        <td data-label="Account Name" >
+                                            <a href="#" onclick={handleRowAction} data-id={account.Id}>{account.Name}</a>
+                                        </td>
+                                        <td data-label="Region">
+                                            {account.Account_Region__c}
+                                        </td>
+                                        <td data-label="Owner Name">
+                                            {account.OwnerName}
+                                        </td>
+                                        <td data-label="Account Classification">
+                                            {account.AccountClassification}
+                                        </td>
+                                        <td data-label="Is Active">
+                                            <img src={account.IsActives.url} alt={account.IsActives.alt} height="20" width="20"/>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                    </div>
+                </div>
+        </lightning-card>
+    </template>
+    
+    <template if:false={accounts.length}>
+        <lightning-card title="No matching accounts found."></lightning-card>
+    </template> 
+</div>
+<div>
+    <br>
+        <lightning-card title="Search for Accounts">
+            <div class="slds-modal__content slds-p-around_large" style="padding: 20px 20px 20px 20px;">
+                <lightning-input label="Enter Account Name" value={accountName2} onchange={handleInputChange} placeholder="Search Account..." required></lightning-input>
+
+                <template if:true={accounts2.length}>
+                    <br>
+                    <div class="slds-card slds-theme_warning"
+                        style="padding: 5px; border-radius: 5px;max-height: 200px; overflow-y: auto;">
+                        <p><b>Similar Accounts Exist</b></p>
+                        <!-- <lightning-datatable key-field="id" data={accounts2} columns={columns2}
+                            hide-checkbox-column="true"
+                            onrowaction={handleRowAction}></lightning-datatable> -->
+                            <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"  style="background-color: #dd7a01; color: black;">
+                                            <div class="slds-truncate" title="Account Name">Account Name</div>
+                                        </th>
+                                        <th scope="col"  style="background-color: #dd7a01; color: black;">
+                                            <div class="slds-truncate" title="Region">Region</div>
+                                        </th>
+                                        <th scope="col"  style="background-color: #dd7a01; color: black;">
+                                            <div class="slds-truncate" title="Owner Name">Owner Name</div>
+                                        </th>
+                                        <th scope="col"  style="background-color: #dd7a01; color: black;">
+                                            <div class="slds-truncate" title="Account Classification">Account Classification</div>
+                                        </th>
+                                        <th scope="col"  style="background-color: #dd7a01; color: black;">
+                                            <div class="slds-truncate" title="Is Active">Is Active</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each={accounts2} for:item="account">
+                                        <tr key={account.Id}>
+                                            <td data-label="Account Name" onclick={handleRowAction}>
+                                                <a href="#" onclick={handleRowAction} data-id={account.Id}>{account.Name}</a>
+                                            </td>
+                                            <td data-label="Region">
+                                                {account.Account_Region__c}
+                                            </td>
+                                            <td data-label="Owner Name">
+                                                {account.OwnerName}
+                                            </td>
+                                            <td data-label="Account Classification">
+                                                {account.AccountClassification}
+                                            </td>
+                                            <td data-label="Is Active">
+                                                <img src={account.IsActives.url} alt={account.IsActives.alt} height="20" width="20"/>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                    </div>
+                </template>
+                <template if:false={accounts2.length}>
+                    <p>No matching accounts found. You can proceed with creating a new record by clicking on next.</p>
+                </template>
+            </div>
+        </lightning-card> 
+    </div>    
+</template>
